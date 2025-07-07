@@ -1,19 +1,29 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
+import { ContactFormContext } from '@/context/ContactFormContext';
 
 const Contact = () => {
+  const { prefill, clearPrefill } = useContext(ContactFormContext);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    address: '',
     phone: '',
     service: '',
     message: ''
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (prefill) {
+      setFormData((prev) => ({ ...prev, ...prefill }));
+      clearPrefill();
+    }
+  }, [prefill, clearPrefill]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -22,9 +32,23 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
+
+    const formDataGoogle = new FormData();
+    formDataGoogle.append('entry.2005620554', formData.name); // Name
+    formDataGoogle.append('entry.1045781291', formData.email); // Email
+    formDataGoogle.append('entry.1065046570', formData.address); // Address
+    formDataGoogle.append('entry.1166974658', formData.phone); // Phone
+    formDataGoogle.append('entry.179799458', formData.service); // Service Needed
+    formDataGoogle.append('entry.839337160', formData.message); // Message
+
+    await fetch('https://docs.google.com/forms/d/e/1FAIpQLSe7QHAzbKERjIiWWWKgZv1qKIaSODhuRVt9H1TNTgYDRAO7Ig/formResponse', {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formDataGoogle,
+    });
+
     setIsSubmitted(true);
     setTimeout(() => setIsSubmitted(false), 3000);
   };
@@ -156,6 +180,22 @@ const Contact = () => {
                 </div>
 
                 <div>
+                  <label htmlFor="address" className="block text-sm font-medium mb-2">
+                    Address *
+                  </label>
+                  <Input
+                    id="address"
+                    name="address"
+                    type="text"
+                    required
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    placeholder="Your address"
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
                   <label htmlFor="service" className="block text-sm font-medium mb-2">
                     Service Needed
                   </label>
@@ -244,7 +284,7 @@ const Contact = () => {
               <p className="mb-4 opacity-90">
                 Water quality emergency? Our technicians are available 24/7.
               </p>
-              <Button variant="secondary" className="bg-white text-primary hover:bg-white/90">
+              <Button variant="secondary" className="bg-white text-primary hover:bg-white/90" onClick={() => { window.location.href = 'tel:+15551234567'; }}>
                 Call Emergency Line
               </Button>
             </div>

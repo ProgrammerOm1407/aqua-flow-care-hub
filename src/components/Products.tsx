@@ -1,7 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Star, Droplets, Filter, Home, Building2 } from 'lucide-react';
+import { useContext } from 'react';
+import { ContactFormContext } from '@/context/ContactFormContext';
 
 const Products = () => {
+  const { setPrefill } = useContext(ContactFormContext);
   const products = [
     {
       id: 1,
@@ -61,6 +64,11 @@ const Products = () => {
       badge: "Compact"
     }
   ];
+
+  const scrollToContact = () => {
+    const element = document.getElementById('contact');
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <section id="products" className="py-20 bg-gradient-to-b from-background to-trust/20">
@@ -153,11 +161,28 @@ const Products = () => {
                       </div>
 
                       <div className="space-y-2">
-                        <Button variant="hero" className="w-full group">
+                        <Button
+                          variant="hero"
+                          className="w-full group"
+                          onClick={() => {
+                            setPrefill({
+                              service: 'New System Installation',
+                              message: `Interested in: ${product.name}`
+                            });
+                            scrollToContact();
+                          }}
+                        >
                           Get This System
                           <Droplets className="w-4 h-4 ml-2 group-hover:scale-110 transition-transform" />
                         </Button>
-                        <Button variant="outline" className="w-full">
+                        <Button
+                          variant="outline"
+                          className="w-full"
+                          onClick={() => {
+                            const element = document.getElementById('products');
+                            element?.scrollIntoView({ behavior: 'smooth' });
+                          }}
+                        >
                           Learn More
                         </Button>
                       </div>
@@ -176,10 +201,24 @@ const Products = () => {
             Our experts can design a custom water filtration system tailored to your specific needs and water quality requirements.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="hero" size="lg">
+            <Button
+              variant="hero"
+              size="lg"
+              onClick={() => {
+                setPrefill({ service: 'Custom Solution Consultation' });
+                scrollToContact();
+              }}
+            >
               Schedule Consultation
             </Button>
-            <Button variant="outline" size="lg">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={() => {
+                setPrefill({ service: 'Free Water Quality Test' });
+                scrollToContact();
+              }}
+            >
               Water Quality Test
             </Button>
           </div>

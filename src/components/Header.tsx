@@ -1,14 +1,25 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Phone, Mail } from 'lucide-react';
+import { ContactFormContext } from '@/context/ContactFormContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { setPrefill } = useContext(ContactFormContext);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
     setIsMenuOpen(false);
+  };
+
+  const handleGetQuote = () => {
+    setPrefill({ service: '' });
+    scrollToSection('contact');
+  };
+
+  const handleCallNow = () => {
+    window.location.href = 'tel:+15551234567';
   };
 
   return (
@@ -78,10 +89,10 @@ const Header = () => {
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={handleGetQuote}>
               Get Quote
             </Button>
-            <Button variant="hero" size="sm">
+            <Button variant="hero" size="sm" onClick={handleCallNow}>
               Call Now
             </Button>
           </div>
@@ -131,10 +142,10 @@ const Header = () => {
               Contact
             </button>
             <div className="pt-4 space-y-3">
-              <Button variant="outline" size="sm" className="w-full">
+              <Button variant="outline" size="sm" className="w-full" onClick={handleGetQuote}>
                 Get Quote
               </Button>
-              <Button variant="hero" size="sm" className="w-full">
+              <Button variant="hero" size="sm" className="w-full" onClick={handleCallNow}>
                 Call Now
               </Button>
             </div>

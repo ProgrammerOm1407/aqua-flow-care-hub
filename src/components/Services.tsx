@@ -1,7 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Wrench, Clock, Shield, Users, CheckCircle, Phone } from 'lucide-react';
+import { useContext } from 'react';
+import { ContactFormContext } from '@/context/ContactFormContext';
 
 const Services = () => {
+  const { setPrefill } = useContext(ContactFormContext);
   const services = [
     {
       icon: Wrench,
@@ -70,6 +73,11 @@ const Services = () => {
     }
   ];
 
+  const scrollToContact = () => {
+    const element = document.getElementById('contact');
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section id="services" className="py-20 bg-gradient-to-b from-trust/20 to-background">
       <div className="container mx-auto px-4">
@@ -122,7 +130,14 @@ const Services = () => {
                   ))}
                 </ul>
 
-                <Button variant="outline" className="w-full group">
+                <Button
+                  variant="outline"
+                  className="w-full group"
+                  onClick={() => {
+                    setPrefill({ service: service.title });
+                    scrollToContact();
+                  }}
+                >
                   Book Service
                   <Phone className="w-4 h-4 ml-2 group-hover:scale-110 transition-transform" />
                 </Button>
@@ -163,10 +178,25 @@ const Services = () => {
             Our technicians are available 24/7 for emergency repairs and urgent water quality issues.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90">
+            <Button
+              variant="secondary"
+              size="lg"
+              className="bg-white text-primary hover:bg-white/90"
+              onClick={() => {
+                window.location.href = 'tel:+15551234567';
+              }}
+            >
               Call Emergency Line
             </Button>
-            <Button variant="outline-hero" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
+            <Button
+              variant="outline-hero"
+              size="lg"
+              className="border-white text-white hover:bg-white hover:text-primary"
+              onClick={() => {
+                setPrefill({ service: 'System Maintenance' });
+                scrollToContact();
+              }}
+            >
               Schedule Service
             </Button>
           </div>

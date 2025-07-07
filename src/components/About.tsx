@@ -1,7 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Award, Users, MapPin, Heart, CheckCircle, Star } from 'lucide-react';
+import { useContext } from 'react';
+import { ContactFormContext } from '@/context/ContactFormContext';
 
 const About = () => {
+  const { setPrefill } = useContext(ContactFormContext);
   const stats = [
     { number: "25+", label: "Years Experience", icon: Award },
     { number: "5000+", label: "Happy Customers", icon: Users },
@@ -36,6 +39,19 @@ const About = () => {
       description: "Transparent, competitive pricing with no hidden fees."
     }
   ];
+
+  const scrollToContact = () => {
+    const element = document.getElementById('contact');
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
+  const scrollToCertifications = () => {
+    const section = document.querySelector('.bg-gradient-card');
+    section?.scrollIntoView({ behavior: 'smooth' });
+  };
+  const scrollToAbout = () => {
+    const section = document.getElementById('about');
+    section?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <section id="about" className="py-20 bg-gradient-to-b from-background to-trust/30">
@@ -154,7 +170,7 @@ const About = () => {
           </div>
 
           <div className="text-center">
-            <Button variant="hero" size="lg">
+            <Button variant="hero" size="lg" onClick={scrollToCertifications}>
               View All Certifications
             </Button>
           </div>
@@ -167,10 +183,21 @@ const About = () => {
             Experience the AquaPure difference with a free water quality assessment and personalized consultation.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="hero" size="lg">
+            <Button
+              variant="hero"
+              size="lg"
+              onClick={() => {
+                setPrefill({ service: 'Free Water Quality Test' });
+                scrollToContact();
+              }}
+            >
               Schedule Free Assessment
             </Button>
-            <Button variant="outline" size="lg">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={scrollToAbout}
+            >
               Read Customer Stories
             </Button>
           </div>
