@@ -62,12 +62,32 @@ This project is built with:
 
 ## How can I deploy this project?
 
+### Deploy with Lovable
 Simply open [Lovable](https://lovable.dev/projects/4680d341-6520-4707-bb7d-9893e99b286b) and click on Share -> Publish.
 
-## Can I connect a custom domain to my Lovable project?
+### Deploy to GitHub Pages
+This project is configured to deploy to GitHub Pages automatically. When you push changes to the main branch, GitHub Actions will build and deploy the site.
 
-Yes, you can!
+To set up GitHub Pages deployment:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. Push your code to a GitHub repository
+2. Go to your repository settings on GitHub
+3. Navigate to "Pages" in the sidebar
+4. Under "Build and deployment", select "GitHub Actions" as the source
+5. The site will be deployed to `https://[your-username].github.io/aqua-flow-care-hub/`
+
+## Can I connect a custom domain to my project?
+
+### With Lovable
+To connect a domain to your Lovable project, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+### With GitHub Pages
+You can also connect a custom domain to your GitHub Pages site:
+
+1. Go to your repository settings on GitHub
+2. Navigate to "Pages" in the sidebar
+3. Under "Custom domain", enter your domain name
+4. Update your DNS settings to point to GitHub Pages
+5. If using a custom domain, update the `base` in `vite.config.ts` to '/'
